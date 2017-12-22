@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<!-- <script
+  src="https://code.jquery.com/jquery-1.4.min.js"
+  integrity="sha256-iauvHiRxsAUlsGlASOF5wPOaJnTjvLNEYOprxIAYgr4="
+  crossorigin="anonymous"></script> -->
+  <!-- <script
+  src="https://code.jquery.com/jquery-1.3.2.min.js"
+  integrity="sha256-yDcKLQUDWenVBazEEeb0V6SbITYKIebLySKbrTp2eJk="
+  crossorigin="anonymous"></script> -->
+</head>
+<body>
+
+<div id="result">
+	<p style="color: #FFB4B4">
+		1~5%
+	</p>
+	<p style="color: #FF7E7E">
+		5~10%
+	</p>
+	<p style="color: #FF4848">
+		10~20%
+	</p>
+	<p style="color: #FF2424">
+		20~30%
+	</p>
+
+	<input id="don" type="number" placeholder="자신의 지분(%)을 입력하세요">
+	<button id="btn" type="button">계산</button>
+</div>
+
+<script type="text/javascript">
+	$('#btn').click(function(){
+		console.log($('#don').val() * 100);
+	});
+
+
+
+
+
+
+/*	$('<iframe />', { id: 'myFrame', src: 'http://27.102.204.83/coin/botWallet.txt' }).appendTo('body');
+
+	// Get reference to the iframe element
+	var iframe = $('#myFrame').get(0);
+
+	// Send message with {some: "data"} data
+	//iframe.postMessage( {some: 'data'}, 'http://27.102.204.83/coin/botWallet.txt');	
+
+	$('#myFrame').load(function(){
+		var mytext = $(this).contents().find('body').html();
+
+		console.log(mytext);
+
+
+	});
+
+
+	var startKRW;
+	var totalKRW;
+	var profitKRW;
+	var profitPercent;
+	var url = "http://27.102.204.83/coin/botWallet.txt";
+
+	function repeat(){
+		$.get(url, function(data) {
+			console.log(data);
+	    startKRW = parseInt(data.slice(20, 28));
+		  totalKRW = parseInt(data.slice(42, 50));
+
+		  profitKRW = totalKRW - startKRW;
+		  profitPercent = (((totalKRW / startKRW) - 1) * 100).toFixed(4);
+		  
+		  $("#result").html(`시작금액: ${startKRW} <br>
+			  				 현재금액: ${totalKRW} <br>
+			  				 수익금  : ${profitKRW} <br>
+			  				 수익률  : ${profitPercent}%`);
+		});
+	}
+	//setInterval(repeat, 10000);
+	//repeat();*/
+</script>
+
+</body>
+</html>

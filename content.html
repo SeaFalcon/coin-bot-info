@@ -419,12 +419,6 @@
 	    } 
 	    return str;
 	}*/
-
-	$.get('https://slack.com/api/files.list?token=xoxp-284495645366-283168516192-309802958449-f83fc1b94588d532a6f94163a999e8c4&channel=C8B37MBKK&pretty=1', (data) => {
-		data.files.forEach((file) => {
-			console.log(file.url_private_download);
-		})
-	});
 </script>
 </body>
 </html>

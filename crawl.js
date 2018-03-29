@@ -1,11 +1,27 @@
 var express = require("express");
 var request = require("request");  
-var url = "http://27.102.204.83/coin/botWallet.txt";
+var url = "http://27.102.206.42/coin/botWallet.txt";
 var app = express();
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+ 
+/*var allowCORS = function(req, res, next) {
+  res.header('Acess-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  (req.method === 'OPTIONS') ?
+    res.send(200) :
+    next();
+};
+app.use(allowCORS);*/
+
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
 
 app.get('/', function(req, res){
 		//res.sendFile(__dirname + "\\content.html");
@@ -24,8 +40,8 @@ app.get('/', function(req, res){
 		var color;
 
 		if (error) throw error;
-		  startKRW = parseInt(body.slice(20, 28));
-		  totalKRW = parseInt(body.slice(42, 50));
+		  startKRW = parseInt(body.slice(20, 29));
+		  totalKRW = parseInt(body.slice(42, 52)); //70005686; //74812046; 
 
 		  profitKRW = totalKRW - startKRW;
 		  profitPercent = (((totalKRW / startKRW) - 1) * 100).toFixed(4);
@@ -50,13 +66,61 @@ app.get('/', function(req, res){
 		  					
 		  					<input style="width: 500; height: 80; font-size: 40;" id="don" type="number" placeholder="자신의 지분(%)을 입력하세요">
 								<button style="width: 200; height: 80; font-size: 50;" id="btn" type="button">계산</button><br>
-								<br><br><span style="font-size: 50;">수익률 색상</span><br>
+								<!--<br><br><span style="font-size: 50;">수익률 색상</span><br>
 								<span style="font-size: 50; color: #1e88e5">+ 1 ~ 5%</span><br>
 								<span style="font-size: 50; color: #1976d2">+ 6 ~ 11%</span><br>
 								<span style="font-size: 50; color: #1565c0">+ 11 ~ 21%</span><br>
 								<span style="font-size: 50; color: #0d47a1">+ 21%~</span><br>
 								<span style="font-size: 50; color: #e53935">&nbsp;- 0%~</span><br>
-								<br><br>
+								<br><br>-->
+								<p style="font-size: 30;">
+									<br>＆12.26 입출금관련 공지사항
+<br> - 매주 목요일 봇 정산시 지분 재산정
+<br> - 입금시 리플로 입금 원칙 고수(입금완료시 즉시 판매하여 원화로 지분 반영)
+<br> - 매주 추가 입금 최소 100만원 ~ 1500만원
+<br> - 출금시엔 모든 원화 출금 가능(출금 단위 최소 10만원)
+<br>   -> 지분을 남길경우 최소 100만원 지분 보유 or 전액 출금
+<br> - 입금 신청자 최종 입금 완료 시 그 이후 봇 가동
+<br> - 입금 및 출금 신청시간 준수
+<br> - 건의사항은 단톡방 문의 및 알고계신 번호로 문의
+<br>※ 입금 지갑주소는 문자&이메일로 목요일 PM5:00 ~ PM7:00에 알려 드립니다. ※
+<br>
+<br>
+<br>＆입금 및 출금
+<br> - 신청시간 : 매주 수요일 ~ 매주 목요일 오후 2시
+<br> - 일시 : 매주 목요일 (변동사항 잇을시 사전공지)
+<br> - 봇 정산 시간 : PM5:00 ~ PM7:00
+<br> 
+<br> - 출금
+<br>   출금시간 : PM7:00 ~ PM8:00
+<br>    
+<br> - 입금
+<br>   입금시간(신규/추가입금) : PM8:00 ~ PM9:00
+<br>
+<br>
+<br>＆출금양식 (메일문의 : coindori271@gmail.com)
+<br>   1. 제목 : [출금신청]
+<br>   2. 카톡 닉네임 / 이름
+<br>   3. 환급 받을 금액(KRW)
+<br>   4. 환급 받을 코인종류 (BTC, ETH, ETC, LTC, XRP, DASH, BCH)
+<br>   5. 환급 받을 코인 지갑 주소 (여러번 확인 후 전송 부탁 드립니다.)
+<br>
+<br>
+<br>＆입금양식 (메일문의 : coindori271@gmail.com)
+<br>   1. 제목 : [입금신청]
+<br>   2. 카톡 닉네임 / 이름
+<br>   3. 핸드폰 번호
+<br>   4. 입금 예정인 KRW (입금 시간에 맞춰 구매 후 입금)
+<br>      -> 인수과정에서 소량의 금액 변동이 있을수 있습니다.
+<br>   ※ 입금 완료 후 반드시 거래번호 문자 or E-mail 로 전송 부탁드립니다.
+<br>           -> 미전송시 확인이 어렵습니다.
+<br>
+<br>
+<br>＆수수료
+<br> - 매주 정산일에 맞춰 20%의 수수료는 공제하여 기말자산을 평가.(차주의 기초자산)
+<br> - 정산 시 수익이 3%미만일때는 수수료를 공제하지 않습니다.
+<br> - 원금의 손실에 대해서는 책임지지 않습니다.
+								</p>
 								<span id="medi" style="font-size: 50;"></span><br>
 								<span id="rail-btc" style="font-size: 50;"></span><br>
 
@@ -108,16 +172,16 @@ app.get('/', function(req, res){
 app.listen(1234, function(){ console.log("Server Start") });
 
 function setColor(profitPercent){
-	if(parseInt(profitPercent) >= 1 && 6 > parseInt(profitPercent)){
+	if(parseFloat(profitPercent) >= 0 && 6 > parseFloat(profitPercent)){
   	color = "#1e88e5";
-  }else if(parseInt(profitPercent) >= 6 && 11 > parseInt(profitPercent)){
+  }else if(parseFloat(profitPercent) >= 6 && 11 > parseFloat(profitPercent)){
   	color = "#1976d2";
-  }else if(parseInt(profitPercent) >= 11 && 21 > parseInt(profitPercent)){
+  }else if(parseFloat(profitPercent) >= 11 && 21 > parseFloat(profitPercent)){
   	color = "#1565c0";
-  }else if(parseInt(profitPercent) >= 21){
+  }else if(parseFloat(profitPercent) >= 21){
   	color = "#0d47a1";
   // 마이너스 일 때
-  }else if(parseInt(profitPercent) <= -1){
+  }else{
   	color = "#e53935";
   }
   return color;

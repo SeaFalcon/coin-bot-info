@@ -24,7 +24,9 @@ class Share {
 		this.share;
 	}
 }
-Share.total = 222960357;
+Share.total = shareObj.reduce((preV, curV, curIdx, array) => {
+	return preV + Number(curV.base);
+}, 0);
 Share.instances = [];
 
 shareObj.forEach(function(data){

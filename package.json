@@ -1,0 +1,28 @@
+{
+  "name": "Crawl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "crawl.js",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.2",
+    "request": "^2.83.0",
+    "sync-request": "^6.0.0",
+    "express-http-proxy": "^1.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SeaFalcon/coin-bot-info.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SeaFalcon/coin-bot-info/issues"
+  },
+  "homepage": "https://github.com/SeaFalcon/coin-bot-info#readme"
+}

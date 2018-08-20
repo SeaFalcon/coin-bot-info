@@ -217,6 +217,7 @@
 	var realProfit;
 	var realProfitPercent;
 	var url = "http://211.238.145.76:3333/";
+	var userObj = {};
 
 	function repeat(){
 		$.get(url, function(krwInfo) {
@@ -237,30 +238,50 @@
 		  $("#realProfitPercent").html(`실수익률: ${krwInfo.realProfitPercent}%`);
 
 		  let myPercentage = 0.07218;
-		  $.get("https://api.coinrail.co.kr/public/last/order?currency=med-btc", (med) =>{
-				$.get("https://api.coinrail.co.kr/public/last/order?currency=btc-krw", (btc) =>{
-					// console.log(btc.last_price, med.last_price, btc.last_price * med.last_price, "40376\n", 
-					// 	"medi:" + numberWithCommas(parseInt(40376.3583 * btc.last_price * med.last_price)) + "원 " + realProfitPercent + "/12.356(" + krwInfo.objective + ")",
-					// 	"\ns:" + numberWithCommas(parseInt(myPercentage * startKRW)), 
-					// 	"\nl:" + numberWithCommas(parseInt((realProfitPercent * 0.01 + 1) * myPercentage * startKRW)));
+		 //  $.get("https://api.coinrail.co.kr/public/last/order?currency=med-btc", (med) =>{
+			// 	$.get("https://api.coinrail.co.kr/public/last/order?currency=btc-krw", (btc) =>{
+			// 		// console.log(btc.last_price, med.last_price, btc.last_price * med.last_price, "40376\n", 
+			// 		// 	"medi:" + numberWithCommas(parseInt(40376.3583 * btc.last_price * med.last_price)) + "원 " + realProfitPercent + "/12.356(" + krwInfo.objective + ")",
+			// 		// 	"\ns:" + numberWithCommas(parseInt(myPercentage * startKRW)), 
+			// 		// 	"\nl:" + numberWithCommas(parseInt((realProfitPercent * 0.01 + 1) * myPercentage * startKRW)));
 
-					if(!med.error_code){
-						$('#medi').html("무인도 메디: " + med.last_price + " 사토시 (" + (btc.last_price * med.last_price).toFixed(4)  + "원)")
-						$('#rail-btc').html("무인도 비트: " + numberWithCommas(btc.last_price) + " 원")
+			// 		if(!med.error_code){
+			// 			$('#medi').html("무인도 메디: " + med.last_price + " 사토시 (" + (btc.last_price * med.last_price).toFixed(4)  + "원)")
+			// 			$('#rail-btc').html("무인도 비트: " + numberWithCommas(Number(btc.last_price)) + " 원")
+			// 		}else{
+			// 			$('#medi').html("힘내라 봇 가즈아! ㄱㄱ")
+			// 			$('#rail-btc').html("코인레일 API 쥬금 으앙 ㅠㅠ")
+			// 		}
+			// 	});
+			// });
+
+			// $.get("http://211.238.145.76:3000", (data) => {
+			// 	$('#ignis-btc').html(`이그니스: $${data[0]} USD /  ${data[1]}사토시`);
+			// });
+			$.get("https://api.upbit.com/v1/ticker?markets=KRW-BTC", (data) => {
+				console.log(data);
+				$('#rail-btc').html(`UpBit KRW-BTC: ${numberWithCommas(data[0].trade_price)} 원`);
+			});
+
+			$.get("https://api.upbit.com/v1/ticker?markets=KRW-EOS", (data) => {
+				console.log(data);
+				$('#ignis-btc').html(`UpBit KRW-EOS: ${numberWithCommas(data[0].trade_price)} 원`);
+			});
+
+			$.ajax({
+				type: 'GET',
+				url: "proxy/coindori/BotUserInfo.php",
+				async: false,
+				success: function(data){
+					var obj = JSON.parse(data);
+					if(obj.result === "0000"){
+						userObj = obj;
+						obj.total = obj.data.reduce((preV, curV, curIdx, array) => { return preV + Number(curV.base); }, 0);
 					}else{
-						$('#medi').html("힘내라 봇 가즈아! 수익률 20% ㄱㄱ")
-						$('#rail-btc').html("코인레일 API 쥬금 으앙 ㅠㅠ")
-					}
-				});
-			});
-
-			$.get("http://211.238.145.76:3000", (data) => {
-				$('#ignis-btc').html(`이그니스: $${data[0]} USD /  ${data[1]}사토시`);
-			});
-
-			/*$.get("http://211.238.145.76:5000/proxy/coindori/BotBidsCheck.php?count=20", (data) => { 
-				//console.log(data);
-			});*/
+						alert("유저정보를 받아오는데 실패했습니다.")
+					}	
+				}
+			})
 
 			var bithumb = "https://api.bithumb.com/public/ticker/all";
 
@@ -310,17 +331,18 @@
 			$("#table").html(inHTML);
 			inHTML = "";
 
-			$.each(krwInfo.share, function(index, value){
+			$.each(userObj.data, function(index, value){
 			    var newItem = `
 			    	<tr id="${value.name}">
 			    		<td>${value.name}</td>
 			    		<td>${numberWithCommas(value.base)}원</td>
-			    		<td>${(value.share * 100).toFixed(3)}%</td>
+			    		<td>${(value.base/userObj.total*100).toFixed(3)}%</td>
 			    		<td>${numberWithCommas(Math.round(value.base * (realProfitPercent * 0.01 + 1) - value.base))}원</td>
 			    		<td>${numberWithCommas(Math.round(value.base * (realProfitPercent * 0.01 + 1)))}원</td>
 			    	</tr>`
 			    inHTML += newItem;
 			});
+
 			$("#share").html(inHTML);
 			var nick = localStorage.getItem('nick');
 			if($("#share").data('show') != undefined){
@@ -419,12 +441,6 @@
 	    } 
 	    return str;
 	}*/
-
-	$.get('https://slack.com/api/files.list?token=xoxp-284495645366-283168516192-309802958449-f83fc1b94588d532a6f94163a999e8c4&channel=C8B37MBKK&pretty=1', (data) => {
-		data.files.forEach((file) => {
-			console.log(file.url_private_download);
-		})
-	});
 </script>
 </body>
 </html>

@@ -2,7 +2,8 @@ var express = require("express");
 var request = require("request");
 var syncReq = require("sync-request");
 var users = require('./user')(syncReq);
-var url = "http://27.102.206.42/coin/botWallet.txt";
+// var url = "http://27.102.206.42/coin/botWallet.txt";
+var url = "http://27.102.206.17/coin/botWallet.txt";
 var app = express();
 
 console.log(users.data.length);

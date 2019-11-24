@@ -1,6 +1,7 @@
 var express = require("express");
 var request = require("request");  
-var url = "http://27.102.206.42/coin/botWallet.txt";
+//var url = "http://27.102.206.42/coin/botWallet.txt";
+var url = "http://27.102.206.17/coin/botWallet.txt";
 var app = express();
 
 function numberWithCommas(x) {

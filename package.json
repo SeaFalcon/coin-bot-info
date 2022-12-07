@@ -5,7 +5,7 @@
   "main": "crawl.js",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "request": "^2.83.0",
     "sync-request": "^6.0.0",
     "express-http-proxy": "^1.1.0"
